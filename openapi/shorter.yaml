@@ -1,0 +1,138 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: Simple shorter :)
+  description: Simple API for manage hash-urls in postgresql
+  contact:
+    name: Marton Barta  
+    email: bbartam@gmail.com
+servers:
+  - url: https://{hostname}/api
+    variables:
+      hostname:
+        default: localhost 
+paths:
+  /urls:
+    get:
+      summary: Return all urls with hash
+      operationId: getUrlsWidthHash
+      responses:
+        '200':
+          description: Return all urls with hash
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                   $ref: '#/components/schemas/UrlHash'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'        
+  /urls/new:
+    post:
+      operationId: makeUrlHash
+      requestBody:
+        description: todo
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MakeUrlHash'
+      responses:
+        '204':
+          description: TODO
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: '#/components/schemas/UrlHash'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /url/{hash}:
+    get:
+      operationId: getUrl
+      parameters:
+        - in: path
+          name: hash
+          schema:
+            type: string
+            minLength: 8
+            maxLength: 8
+          required: true
+          description: todo
+      responses:
+        '200':
+          description: url
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                   $ref: '#/components/schemas/UrlHash'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /url/del/{hash}:
+    delete:
+      operationId: deleteUrl
+      parameters:
+        - in: path
+          name: hash
+          schema:
+            type: string
+            minLength: 8
+            maxLength: 8
+          required: true
+          description: todo
+      responses:
+        '204':
+          description: todo
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error' 
+components:
+  schemas:
+    UrlHash:
+      type: object
+      required:
+        - Hash
+        - Url
+      properties:
+        Hash:
+          type: string 
+        Url:
+          type: string
+    MakeUrlHash:
+      type: object
+      required:
+        - Url
+      properties:
+        Url:
+          type: string
+          pattern: '[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)'
+    Error:
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int32
+          description: Error code
+        message:
+          type: string
+          description: Error message
