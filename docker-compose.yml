@@ -9,4 +9,15 @@ services:
         ports:
             - "127.0.0.1:3002:${PORT}"
         env_file:
-            - .env 
+            - .env
+    web:
+        build:
+            context: docker/web
+            dockerfile: Dockerfile
+        working_dir: /web/shorter-frontend
+        volumes:
+            - ./web/shorter-frontend:/web/shorter-frontend
+            - /web/shorter-frontend/node_modules/
+        ports:
+            - "127.0.0.1:4200:4200"        
+            
