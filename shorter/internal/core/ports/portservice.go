@@ -1,6 +1,7 @@
 package port
 
 import (
+	"github.com/bartam1/mobilfox/shorter/internal/core/services/command"
 	"github.com/bartam1/mobilfox/shorter/internal/core/services/query"
 )
 
