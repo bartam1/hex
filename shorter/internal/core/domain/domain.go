@@ -1,13 +1,17 @@
 package domain
 
 import (
-	"crypto/sha1"
-	"io"
+	"hash/fnv"
+	"strconv"
 )
 
+func hash(s string) uint64 {
+	h := fnv.New64a()
+	h.Write([]byte(s))
+	return h.Sum64()
+}
+
 func GenerateUrlHash(url string) UrlHash {
-	h := sha1.New()
-	io.WriteString(h, url)
-	hash := h.Sum(nil)
-	return UrlHash{Url: url, Hash: string(hash[:8])}
+	hstring := strconv.FormatInt(int64(hash(url)), 16)
+	return UrlHash{Url: url, Hash: hstring[1:9]}
 }
