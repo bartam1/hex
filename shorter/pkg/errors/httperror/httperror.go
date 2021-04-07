@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	"github.com/bartam1/mobilfox/shorter/pkg/logs/httplog"
-	echo "github.com/labstack/echo"
+	echo "github.com/labstack/echo/v4"
 	"github.com/sirupsen/logrus"
 )
 
