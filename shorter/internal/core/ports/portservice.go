@@ -6,7 +6,6 @@ import (
 )
 
 type Commands struct {
-	//MakeRandomUser command.CancelTrainingHandler
 	MakeUrlHash command.MakeUrlHash
 	DeleteUrl   command.DeleteUrl
 }
