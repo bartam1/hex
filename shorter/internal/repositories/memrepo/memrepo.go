@@ -12,7 +12,7 @@ type memDB struct {
 
 func (d memDB) GetUrlsWidthHash(ctx context.Context) (us []domain.UrlHash, err error) {
 	for key, element := range d.db {
-		us = append(us, domain.UrlHash{Url: key, Hash: element})
+		us = append(us, domain.UrlHash{Url: element, Hash: key})
 	}
 	return us, nil
 }
