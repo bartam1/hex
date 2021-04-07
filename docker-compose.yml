@@ -1,0 +1,12 @@
+services:
+    shorter:
+        build:
+            context: docker/app/${BUILD}
+        volumes:
+            - ./shorter:/shorter
+            - ~/go/pkg/mod:/go/pkg/mod
+        working_dir: /shorter/cmd/shorter
+        ports:
+            - "127.0.0.1:3002:${PORT}"
+        env_file:
+            - .env 
