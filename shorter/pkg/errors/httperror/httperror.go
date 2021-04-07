@@ -3,34 +3,23 @@ package httperror
 import (
 	"net/http"
 
-	"github.com/go-chi/render"
+	"github.com/bartam1/mobilfox/shorter/pkg/logs/httplog"
+	echo "github.com/labstack/echo"
 	"github.com/sirupsen/logrus"
-	"local.com/accsrv/pkg/logs/httplog"
 )
 
-func httpRespondWithError(err error, slug string, w http.ResponseWriter, r *http.Request, logMSg string, status int) {
-	httplog.GetLogEntry(r).WithError(err).WithField("error-slug", slug).Error(logMSg)
-	resp := ErrorResponse{slug, status}
-
-	if err := render.Render(w, r, resp); err != nil {
-		logrus.Panicf("Couldn't render response! err: ", err)
-	}
+func httpRespondWithError(c echo.Context, err error, logMSg string, status int) {
+	logrus.WithFields(logrus.Fields{
+		"Internal": err.Error(),
+	}).Errorf(logMSg)
+	eErr := echo.HTTPError{Code: status, Message: logMSg, Internal: err}
+	httplog.ErrorHandler(&eErr, c)
 }
 
-type ErrorResponse struct {
-	Slug       string `json:"slug"`
-	httpStatus int
+func InternalError(c echo.Context, err error) {
+	httpRespondWithError(c, err, "Internal server error", http.StatusInternalServerError)
 }
 
-func (e ErrorResponse) Render(w http.ResponseWriter, r *http.Request) error {
-	w.WriteHeader(e.httpStatus)
-	return nil
-}
-
-func InternalError(slug string, err error, w http.ResponseWriter, r *http.Request) {
-	httpRespondWithError(err, slug, w, r, "Internal server error", http.StatusInternalServerError)
-}
-
-func BadRequest(slug string, err error, w http.ResponseWriter, r *http.Request) {
-	httpRespondWithError(err, slug, w, r, "Bad request", http.StatusBadRequest)
+func BadRequest(c echo.Context, err error) {
+	httpRespondWithError(c, err, "Bad Request", http.StatusInternalServerError)
 }
