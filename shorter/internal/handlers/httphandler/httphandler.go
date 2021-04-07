@@ -47,3 +47,7 @@ func (s Shorter) DeleteUrl(ctx echo.Context, hash string) error {
 	}
 	return ctx.String(http.StatusOK, "Deleted")
 }
+
+func New(ser port.Service) *Shorter {
+	return &Shorter{service: ser}
+}
