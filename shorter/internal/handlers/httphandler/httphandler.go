@@ -16,8 +16,7 @@ type Shorter struct {
 func (s Shorter) GetUrlsWidthHash(ctx echo.Context) error {
 	urls, err := s.service.Queries.UrlsWidthHash.Do(ctx.Request().Context())
 	if err != nil {
-		httperror.InternalError(ctx, err)
-		return err
+		return httperror.Internal(ctx, err)
 	}
 	return ctx.JSON(http.StatusOK, urls)
 
@@ -25,8 +24,7 @@ func (s Shorter) GetUrlsWidthHash(ctx echo.Context) error {
 func (s Shorter) GetUrl(ctx echo.Context, hash string) error {
 	url, err := s.service.Queries.Url.Do(ctx.Request().Context(), hash)
 	if err != nil {
-		httperror.InternalError(ctx, err)
-		return err
+		return httperror.NotFound(ctx, err)
 	}
 	return ctx.JSON(http.StatusOK, url)
 }
@@ -34,16 +32,14 @@ func (s Shorter) MakeUrlHash(ctx echo.Context) error {
 	u := domain.MakeUrlHash{Url: ctx.Request().PostFormValue("Url")}
 	url, err := s.service.Commands.MakeUrlHash.Do(ctx.Request().Context(), u)
 	if err != nil {
-		httperror.InternalError(ctx, err)
-		return err
+		return httperror.Internal(ctx, err)
 	}
 	return ctx.JSON(http.StatusOK, url)
 }
 func (s Shorter) DeleteUrl(ctx echo.Context, hash string) error {
 	err := s.service.Commands.DeleteUrl.Do(ctx.Request().Context(), hash)
 	if err != nil {
-		httperror.InternalError(ctx, err)
-		return err
+		return httperror.NotFound(ctx, err)
 	}
 	return ctx.String(http.StatusOK, "Deleted")
 }

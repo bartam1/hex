@@ -3,23 +3,21 @@ package httperror
 import (
 	"net/http"
 
-	"github.com/bartam1/mobilfox/shorter/pkg/logs/httplog"
 	echo "github.com/labstack/echo/v4"
-	"github.com/sirupsen/logrus"
 )
 
-func httpRespondWithError(c echo.Context, err error, logMSg string, status int) {
-	logrus.WithFields(logrus.Fields{
-		"Internal": err.Error(),
-	}).Errorf(logMSg)
+func httpRespondWithError(c echo.Context, err error, logMSg string, status int) *echo.HTTPError {
 	eErr := echo.HTTPError{Code: status, Message: logMSg, Internal: err}
-	httplog.ErrorHandler(&eErr, c)
+	return &eErr
 }
 
-func InternalError(c echo.Context, err error) {
-	httpRespondWithError(c, err, "Internal server error", http.StatusInternalServerError)
+func Internal(c echo.Context, err error) *echo.HTTPError {
+	return httpRespondWithError(c, err, "Internal server error", http.StatusInternalServerError)
 }
 
-func BadRequest(c echo.Context, err error) {
-	httpRespondWithError(c, err, "Bad Request", http.StatusInternalServerError)
+func BadRequest(c echo.Context, err error) *echo.HTTPError {
+	return httpRespondWithError(c, err, "Bad Request", http.StatusInternalServerError)
+}
+func NotFound(c echo.Context, err error) *echo.HTTPError {
+	return httpRespondWithError(c, err, "Not found", http.StatusNotFound)
 }
