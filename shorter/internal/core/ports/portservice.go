@@ -1,5 +1,9 @@
 package port
 
+import (
+	"github.com/bartam1/mobilfox/shorter/internal/core/services/query"
+)
+
 type Commands struct {
 	//MakeRandomUser command.CancelTrainingHandler
 	MakeUrlHash command.MakeUrlHash
