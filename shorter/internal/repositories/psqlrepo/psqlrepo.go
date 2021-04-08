@@ -3,6 +3,8 @@ package psqlrepo
 import (
 	"context"
 
+	"strings"
+
 	"github.com/bartam1/mobilfox/shorter/internal/core/domain"
 	"github.com/bartam1/mobilfox/shorter/pkg/errors/exterror"
 	pgx "github.com/jackc/pgx/v4"
@@ -37,7 +39,10 @@ func (d postgresqlDB) GetUrl(ctx context.Context, hash string) (u domain.UrlHash
 func (d postgresqlDB) MakeUrlHash(ctx context.Context, mu domain.UrlHash) (u domain.UrlHash, err error) {
 	_, e := d.dbclient.Exec(ctx, "INSERT INTO URLHASH (Url, Hash) VALUES ($1,  $2)", mu.Url, mu.Hash)
 	if e != nil {
-		return domain.UrlHash{}, exterror.NewRepoError(e.Error(), "MakeUrlHash err at insertion")
+		if !strings.Contains(e.Error(), "duplicate") {
+			return domain.UrlHash{}, exterror.NewRepoError(e.Error(), "MakeUrlHash err at insertion")
+		}
+		return domain.UrlHash{}, nil
 	}
 	return mu, nil
 }
