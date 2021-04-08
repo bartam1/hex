@@ -1,15 +1,19 @@
+version: "3.3"
 services:
     shorter:
         build:
             context: docker/app/${BUILD}
+            dockerfile: Dockerfile
+        working_dir: /shorter/cmd/shorter
         volumes:
             - ./shorter:/shorter
             - ~/go/pkg/mod:/go/pkg/mod
-        working_dir: /shorter/cmd/shorter
         ports:
             - "127.0.0.1:3002:${PORT}"
         env_file:
             - .env
+        depends_on:
+            - psql
     web:
         build:
             context: docker/web
@@ -19,5 +23,21 @@ services:
             - ./web/shorter-frontend:/web/shorter-frontend
             - /web/shorter-frontend/node_modules/
         ports:
-            - "127.0.0.1:4200:4200"        
-            
+            - "4200:4200"  
+        depends_on:
+            - shorter
+            - psql      
+    psql:
+        image: postgres:9.4
+        volumes:
+            - ./sql/schemapsql.sql:/docker-entrypoint-initdb.d/schema.sql
+        restart: always 
+        ports:
+            - 5432:5432 
+        env_file:
+            - .env                    
+    adminer:
+        image: adminer
+        restart: always 
+        ports:
+            - 8080:8080                   
