@@ -1,1 +1,15 @@
-<p>home works!</p>
+<mat-card *ngFor="let uh of UrlsWidthHash" style="margin-top:11px;">
+    <mat-card-header>
+        <mat-card-title>
+            <a href="{{uh.Url}}">{{uh.Hash}}</a>
+        </mat-card-title>    
+    </mat-card-header>
+    <mat-card-content>
+       
+            {{uh.Url}}
+       
+    </mat-card-content>
+    <mat-card-actions>
+  <button mat-button>Remove</button>
+</mat-card-actions>
+</mat-card>
