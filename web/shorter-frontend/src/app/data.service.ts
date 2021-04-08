@@ -13,4 +13,8 @@ export class DataService {
     let url = this.API_SERVER + "/urls";
     return this.httpClient.get(url);
   }
+  // public PostMakeUrlHash(){
+  //   let url = this.API_SERVER + "/url/new";
+  //   return this.httpClient.post(url);
+  // }
 }
