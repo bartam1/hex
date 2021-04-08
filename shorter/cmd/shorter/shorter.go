@@ -24,7 +24,7 @@ func main() {
 
 	//repo, _ := memrepo.New()
 
-	repo, err := psqlrepo.New(ctx, "postgres://postgres:almafa@psql:5432/db")
+	repo, err := psqlrepo.New(ctx, os.Getenv("DATABASE_PSQL_URL"))
 
 	if err != nil {
 		logrus.Panicf("db error: ", err)
@@ -59,5 +59,5 @@ func main() {
 	idleConnsClosed := make(chan struct{})
 	go httpserver.CatchInterrupt(ctx, idleConnsClosed, e.Server)
 	//Listen address and port (for docker-compose)
-	e.Start("shorter:" + os.Getenv("PORT"))
+	e.Start(os.Getenv("HOST") + ":" + os.Getenv("PORT"))
 }
