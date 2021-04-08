@@ -13,6 +13,7 @@ import (
 	"github.com/bartam1/mobilfox/shorter/pkg/logs/extlog"
 	"github.com/bartam1/mobilfox/shorter/pkg/logs/httplog"
 	echo "github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 )
 
 func main() {
@@ -35,6 +36,10 @@ func main() {
 	hndl := httphandler.New(s)
 
 	e := echo.New()
+
+	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+		AllowOrigins: []string{"*"},
+	}))
 
 	e.Use(httplog.MiddlewareLogging)
 	e.HTTPErrorHandler = httplog.ErrorHandler
