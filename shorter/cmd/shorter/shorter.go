@@ -23,12 +23,14 @@ func main() {
 	ctx := context.Background()
 
 	//repo, _ := memrepo.New()
+
 	repo, err := psqlrepo.New(ctx, "postgres://postgres:almafa@psql:5432/db")
 
 	if err != nil {
 		logrus.Panicf("db error: ", err)
 	}
 
+	//Add interactions with prev created repo
 	s := port.Service{
 		Queries: port.Queries{
 			UrlsWidthHash: query.NewUrlsWidthHash(repo),
@@ -39,6 +41,7 @@ func main() {
 			DeleteUrl:   command.NewDeleteUrl(repo),
 		},
 	}
+
 	hndl := httphandler.New(s)
 
 	e := echo.New()
@@ -46,14 +49,15 @@ func main() {
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
 		AllowOrigins: []string{"*"},
 	}))
-
+	//Add logrus middleware
 	e.Use(httplog.MiddlewareLogging)
 	e.HTTPErrorHandler = httplog.ErrorHandler
 
 	httphandler.RegisterHandlers(e, hndl)
 
+	//Catch interruptions and shutdown gracefully
 	idleConnsClosed := make(chan struct{})
 	go httpserver.CatchInterrupt(ctx, idleConnsClosed, e.Server)
-
+	//Listen address and port (for docker-compose)
 	e.Start("shorter:" + os.Getenv("PORT"))
 }

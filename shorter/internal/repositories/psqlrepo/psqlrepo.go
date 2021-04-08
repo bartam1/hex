@@ -17,7 +17,7 @@ type postgresqlDB struct {
 func (d postgresqlDB) GetUrlsWidthHash(ctx context.Context) (us []domain.UrlHash, err error) {
 	rows, err := d.dbclient.Query(ctx, "select * from URLHASH")
 	if err != nil {
-		return []domain.UrlHash{}, exterror.NewRepoError("GetUrlsWidthHash", err.Error())
+		return []domain.UrlHash{}, exterror.NewRepoError(err.Error(), "GetUrlsWidthHash")
 	}
 	var usrow domain.UrlHash
 	us = make([]domain.UrlHash, 0)
