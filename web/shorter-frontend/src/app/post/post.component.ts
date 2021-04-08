@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { DataService } from '../data.service';
+
 
 @Component({
   selector: 'app-post',
@@ -6,10 +8,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./post.component.css']
 })
 export class PostComponent implements OnInit {
-
-  constructor() { }
+  urlstr: string
+  constructor(private dataService: DataService) { }
 
   ngOnInit(): void {
   }
-
+  addUrl() {
+    this.dataService.PostMakeUrlHash(this.urlstr).subscribe((data: any[])=>{
+      console.log(data);
+  
+    })
+  }
 }
+    

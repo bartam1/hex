@@ -1,2 +1,4 @@
 <p>
+    <input class="MakeUrl" placeholder="eg http://www.google.com" autofocus="" [(ngModel)]="urlstr" (keyup.enter)="addUrl()">
+    <button mat-button (click)="addUrl()" >Add</button>
 </p>
