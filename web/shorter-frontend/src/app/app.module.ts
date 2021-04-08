@@ -12,6 +12,7 @@ import {MatCardModule} from '@angular/material/card';
 import {MatButtonModule} from '@angular/material/button';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import { PostComponent } from './post/post.component';
+import { FormsModule } from '@angular/forms'; 
 
 
 @NgModule({
@@ -29,7 +30,8 @@ import { PostComponent } from './post/post.component';
     MatIconModule,
     MatCardModule,
     MatButtonModule,
-    MatToolbarModule    
+    MatToolbarModule,
+    FormsModule,   
  
 
 
