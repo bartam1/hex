@@ -1,7 +1,12 @@
 package httphandler
 
 import (
+	"errors"
 	"net/http"
+
+	"fmt"
+
+	"regexp"
 
 	"github.com/bartam1/mobilfox/shorter/internal/core/domain"
 	port "github.com/bartam1/mobilfox/shorter/internal/core/ports"
@@ -29,7 +34,18 @@ func (s Shorter) GetUrl(ctx echo.Context, hash string) error {
 	return ctx.JSON(http.StatusOK, url)
 }
 func (s Shorter) MakeUrlHash(ctx echo.Context) error {
-	u := domain.MakeUrlHash{Url: ctx.Request().PostFormValue("Url")}
+	json := echo.Map{}
+	if err := ctx.Bind(&json); err != nil {
+		return httperror.Internal(ctx, err)
+	}
+
+	str := fmt.Sprintf("%v", json["Url"])
+
+	re := regexp.MustCompile(`^(http|https)://`)
+	if !re.MatchString(str) {
+		return httperror.BadRequest(ctx, errors.New(str+" is not an url"))
+	}
+	u := domain.MakeUrlHash{Url: str}
 	url, err := s.service.Commands.MakeUrlHash.Do(ctx.Request().Context(), u)
 	if err != nil {
 		return httperror.Internal(ctx, err)
