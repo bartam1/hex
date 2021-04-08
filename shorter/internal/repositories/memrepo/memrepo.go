@@ -31,6 +31,7 @@ func (d memDB) DeleteUrl(ctx context.Context, hash string) error {
 	if d.db[hash] == "" {
 		return exterror.NewRepoError("", "There is no url with that hash!")
 	}
+	delete(d.db, hash)
 	return nil
 }
 func New() (memDB, error) {
