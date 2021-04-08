@@ -16,7 +16,7 @@ func Internal(c echo.Context, err error) *echo.HTTPError {
 }
 
 func BadRequest(c echo.Context, err error) *echo.HTTPError {
-	return httpRespondWithError(c, err, "Bad Request", http.StatusInternalServerError)
+	return httpRespondWithError(c, err, "Bad Request", http.StatusBadRequest)
 }
 func NotFound(c echo.Context, err error) *echo.HTTPError {
 	return httpRespondWithError(c, err, "Not found", http.StatusNotFound)
