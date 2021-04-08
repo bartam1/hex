@@ -57,7 +57,7 @@ func (s Shorter) DeleteUrl(ctx echo.Context, hash string) error {
 	if err != nil {
 		return httperror.NotFound(ctx, err)
 	}
-	return ctx.String(http.StatusOK, "Deleted")
+	return ctx.String(http.StatusOK, "")
 }
 
 func New(ser port.Service) *Shorter {
