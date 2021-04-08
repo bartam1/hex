@@ -8,12 +8,13 @@ import (
 	"github.com/bartam1/mobilfox/shorter/internal/core/services/command"
 	"github.com/bartam1/mobilfox/shorter/internal/core/services/query"
 	"github.com/bartam1/mobilfox/shorter/internal/handlers/httphandler"
-	"github.com/bartam1/mobilfox/shorter/internal/repositories/memrepo"
+	"github.com/bartam1/mobilfox/shorter/internal/repositories/psqlrepo"
 	"github.com/bartam1/mobilfox/shorter/pkg/httpserver"
 	"github.com/bartam1/mobilfox/shorter/pkg/logs/extlog"
 	"github.com/bartam1/mobilfox/shorter/pkg/logs/httplog"
 	echo "github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
+	"github.com/sirupsen/logrus"
 )
 
 func main() {
@@ -21,7 +22,12 @@ func main() {
 
 	ctx := context.Background()
 
-	repo, _ := memrepo.New()
+	//repo, _ := memrepo.New()
+	repo, err := psqlrepo.New(ctx, "postgres://postgres:almafa@psql:5432/db")
+
+	if err != nil {
+		logrus.Panicf("db error: ", err)
+	}
 
 	s := port.Service{
 		Queries: port.Queries{
@@ -49,5 +55,5 @@ func main() {
 	idleConnsClosed := make(chan struct{})
 	go httpserver.CatchInterrupt(ctx, idleConnsClosed, e.Server)
 
-	e.Start("0.0.0.0:" + os.Getenv("PORT"))
+	e.Start("shorter:" + os.Getenv("PORT"))
 }
