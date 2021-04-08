@@ -1,7 +1,8 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 import { DataService } from '../data.service';
 import {  takeUntil } from 'rxjs/operators'
 import { Subject } from 'rxjs';
+import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'app-home',
@@ -13,7 +14,7 @@ export class HomeComponent implements OnInit , OnDestroy {
   UrlsWidthHash = []
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private dataService: DataService) { }
+  constructor(@Inject(DOCUMENT) private _document: Document, private dataService: DataService) { }
 
   ngOnInit(): void {
     this.dataService.GetUrlsWidthHash().pipe(takeUntil(this.destroy$)).subscribe((data: any[])=>{
@@ -29,7 +30,9 @@ export class HomeComponent implements OnInit , OnDestroy {
   removeUrl(u: string) {
     this.dataService.RemoveUrl(u).subscribe((data: any[])=>{
       console.log(data);
+      this._document.defaultView.location.reload();
   
     })
+
   }
 }
