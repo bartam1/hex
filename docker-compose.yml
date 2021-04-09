@@ -16,7 +16,7 @@ services:
             - psql
     web:
         build:
-            context: docker/web
+            context: docker/web/${BUILD}
             dockerfile: Dockerfile
         working_dir: /web/shorter-frontend
         volumes:
