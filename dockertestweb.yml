@@ -1,0 +1,12 @@
+version: "3.3"
+services:
+  web:
+    build:
+      context: docker/web/${BUILD}
+      dockerfile: Dockerfile
+    working_dir: /web/shorter-frontend
+    volumes:
+      - ./web/shorter-frontend:/web/shorter-frontend
+      - /web/shorter-frontend/node_modules/
+    ports:
+      - "4200:4200"  
