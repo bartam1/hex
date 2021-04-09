@@ -32,6 +32,7 @@ ezek felelosek a domain logic es a repo kezeleseert
 A pkg dir-ben vannak a konnyen mashol is hasznalhato csomagok. (log,error,httpserver kiegeszitok)
 
 internal/httphandler - felelos a request ellenorzesert, response gyartasert
+
 ------------------------------------------------------------------------------------------
 FRONTEND:
 about,home,post component
