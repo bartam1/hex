@@ -9,4 +9,6 @@ services:
       - ./web/shorter-frontend:/web/shorter-frontend
       - /web/shorter-frontend/node_modules/
     ports:
-      - "4200:4200"  
+      - "4200:4200"
+    env_file:
+      - .env-frontend
