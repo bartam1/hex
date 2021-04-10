@@ -3,13 +3,14 @@ import { HttpClient,HttpErrorResponse } from '@angular/common/http';
 
 import {  throwError } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
 
-  private API_SERVER = "http://172.22.0.4:3000";
+  private API_SERVER = environment.apiUrl;
 
   constructor(private httpClient: HttpClient) { }
   
@@ -31,6 +32,8 @@ export class DataService {
     return this.httpClient.get(url).pipe(retry(3),catchError(this.handleError));
   }
   public PostMakeUrlHash(mu: string){
+    console.log("pressed")
+    console.log(mu)
     let url = this.API_SERVER + "/urls/new";
     let reqBody = "Url=" + mu;
     console.log(reqBody);

@@ -9,7 +9,7 @@ services:
             - ./shorter:/shorter
             - ~/go/pkg/mod:/go/pkg/mod
         ports:
-            - "127.0.0.1:3002:${PORT}"
+            - "3000:${PORT}"
         env_file:
             - .env
         depends_on:
@@ -24,6 +24,8 @@ services:
             - /web/shorter-frontend/node_modules/
         ports:
             - "4200:4200"  
+        env_file:
+            - .env-frontend
         depends_on:
             - shorter
             - psql      
