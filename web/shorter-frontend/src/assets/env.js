@@ -2,6 +2,6 @@
     window.env = window.env || {};
   
     // Environment variables
-    window["env"]["apiUrl"] = "http://172.19.0.7:3000";
-    window["env"]["debug"] = "";
+    window["env"]["apiUrl"] = "http://172.18.0.4:3000";
+    window["env"]["debug"] = "false";
   })(this);
