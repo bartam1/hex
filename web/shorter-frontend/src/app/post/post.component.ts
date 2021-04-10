@@ -14,7 +14,11 @@ export class PostComponent implements OnInit {
   ngOnInit(): void {
   }
   addUrl() {
-    this.dataService.PostMakeUrlHash(this.urlstr).subscribe((data: any[])=>{
+    let poststr = this.urlstr
+    if (!this.urlstr.match('^(http|https)://')) {
+        poststr =  "http://" + this.urlstr;
+    }
+    this.dataService.PostMakeUrlHash(poststr).subscribe((data: any[])=>{
       console.log(data);
   
     })
