@@ -5,9 +5,9 @@ docker-compose up
 
 TODO: ha a frontend data.services.ts-ben beallitom a kontener hostname-jet a backendnek (shorter) akkor valamiert nem tud csatlakozni a frontend a backendhez. Ha ipt allitok be akkor jo...
                 (private API_SERVER = "http://172.22.0.4:3000";  -  private API_SERVER = "http://shorter:3000";)   
-Ez miatt lehet nalad nem fog mukodni, kiveve ha beallitod a backend ip-jet abban a fileban... valamiert nem oldja fel a "shorter"-t
-ranezek majd kesobb, hogy ez miert lehet
 
+Az API_SERVER cim a ".env-frontend" fileban van definialva
+A docker-compose-al lehetne allitani fix ip-ket a kontenereknek es akkor az megoldas.
 
 ---------------------------------------------------------------------------------------------------------------------------
 Dokumentacio: 
