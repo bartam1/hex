@@ -40,10 +40,10 @@ func (s Shorter) MakeUrlHash(ctx echo.Context) error {
 	}
 
 	str := fmt.Sprintf("%v", json["Url"])
-
 	re := regexp.MustCompile(`^(http|https)://`)
+
 	if !re.MatchString(str) {
-		return httperror.BadRequest(ctx, errors.New(str+" is not an url"))
+		return httperror.BadRequest(ctx, errors.New(str+" is not an url..."))
 	}
 	u := domain.MakeUrlHash{Url: str}
 	url, err := s.service.Commands.MakeUrlHash.Do(ctx.Request().Context(), u)
