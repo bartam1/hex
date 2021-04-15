@@ -31,7 +31,6 @@ export class HomeComponent implements OnInit , OnDestroy {
     this.dataService.RemoveUrl(u).subscribe((data: any[])=>{
       console.log(data);
       this._document.defaultView.location.reload();
-  
     })
 
   }
