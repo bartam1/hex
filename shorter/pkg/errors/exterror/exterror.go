@@ -1,48 +1,70 @@
 package exterror
 
-import (
-	"github.com/sirupsen/logrus"
-)
-
 type ErrorType struct {
 	t string
 }
 
 var (
-	ErrorTypeUnexpected    = ErrorType{"unexpected"}
-	ErrorTypeRepository    = ErrorType{"repository"}
-	ErrorTypeAuthorization = ErrorType{"authorization"}
+	ErrorTypeUnexpected     = ErrorType{"unexpected"}
+	ErrorTypeRepository     = ErrorType{"repository"}
+	ErrorTypeAuthorization  = ErrorType{"authorization"}
+	ErrorTypeIncorrectInput = ErrorType{"incorrectinput"}
 )
 
-type ServiceError struct {
-	error     string
+type ExtError struct {
+	error     error
 	slug      string
 	errorType ErrorType
 }
 
-func (s ServiceError) Error() string {
-	return s.error
+func (s ExtError) Error() string {
+	return s.error.Error()
+}
+func (s ExtError) Slug() string {
+	return s.slug
 }
 
-func NewUnexpectedError(error string, slug string) ServiceError {
-	logrus.WithFields(logrus.Fields{
-		"slug": slug,
-		"type": ErrorTypeUnexpected.t,
-	}).Errorf(error)
-	return ServiceError{
+func (s ExtError) ErrorType() ErrorType {
+	return s.errorType
+}
+
+func NewUnexpected(error error, slug string, log func()) ExtError {
+	log()
+	return ExtError{
 		error:     error,
 		slug:      slug,
 		errorType: ErrorTypeUnexpected,
 	}
 }
-func NewRepoError(error string, slug string) ServiceError {
-	logrus.WithFields(logrus.Fields{
-		"slug": slug,
-		"type": ErrorTypeRepository.t,
-	}).Errorf(error)
-	return ServiceError{
-		error:     error,
+func NewRepoSlug(err error, slug string, log func()) ExtError {
+	log()
+	return ExtError{
+		error:     err,
 		slug:      slug,
 		errorType: ErrorTypeRepository,
+	}
+}
+func NewRepo(err error, log func()) ExtError {
+	log()
+	return ExtError{
+		error:     err,
+		slug:      "",
+		errorType: ErrorTypeRepository,
+	}
+}
+func NewIncorrectInput(error error, slug string, log func()) ExtError {
+	log()
+	return ExtError{
+		error:     error,
+		slug:      slug,
+		errorType: ErrorTypeIncorrectInput,
+	}
+}
+func NewAuthorization(error error, slug string, log func()) ExtError {
+	log()
+	return ExtError{
+		error:     error,
+		slug:      slug,
+		errorType: ErrorTypeAuthorization,
 	}
 }

@@ -19,7 +19,7 @@ func Init() {
 		},
 	})
 
-	if isLocalEnv, _ := strconv.ParseBool("true"); isLocalEnv { //os.Getenv("LOCAL_ENV")
+	if isLocalEnv, _ := strconv.ParseBool("false"); isLocalEnv { //os.Getenv("LOCAL_ENV")
 		logrus.SetFormatter(&prefixed.TextFormatter{
 			ForceFormatting: true,
 		})
