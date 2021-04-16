@@ -41,7 +41,7 @@ func (d postgresqlDB) MakeUrlHash(ctx context.Context, mu domain.UrlHash) (u dom
 	_, e := d.dbclient.Exec(ctx, "INSERT INTO URLHASH (Url, Hash) VALUES ($1,  $2)", mu.Url, mu.Hash)
 	if e != nil {
 		if !strings.Contains(e.Error(), "duplicate") {
-			return domain.UrlHash{}, exterror.NewRepoSlug(e, "Duplicate entry", func() { logrus.Error(e) })
+			return domain.UrlHash{}, exterror.NewRepo(e, func() { logrus.Error(e) })
 		}
 		return domain.UrlHash{}, nil
 	}
