@@ -1,6 +1,7 @@
 package extlog
 
 import (
+	"os"
 	"strconv"
 
 	"github.com/sirupsen/logrus"
@@ -19,7 +20,7 @@ func Init() {
 		},
 	})
 
-	if isLocalEnv, _ := strconv.ParseBool("false"); isLocalEnv { //os.Getenv("LOCAL_ENV")
+	if isLocalEnv, _ := strconv.ParseBool(os.Getenv("LOCAL_ENV")); isLocalEnv {
 		logrus.SetFormatter(&prefixed.TextFormatter{
 			ForceFormatting: true,
 		})
