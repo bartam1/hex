@@ -3,7 +3,7 @@
 Installalas: 
 docker-compose up
 
-TODO: ha a frontend data.services.ts-ben beallitom a kontener hostname-jet a backendnek (shorter) akkor valamiert nem tud csatlakozni a frontend a backendhez. Ha ipt allitok be akkor jo...
+TODO: ha a frontend data.services.ts-ben beallitom a backend kontener hostname-jet  (shorter), akkor valamiert nem tud csatlakozni a frontend a backendhez. Ha ipt allitok be akkor jo...
                 (private API_SERVER = "http://172.22.0.4:3000";  -  private API_SERVER = "http://shorter:3000";)   
 
 Az API_SERVER cim a ".env-frontend" fileban van definialva
@@ -34,6 +34,9 @@ A pkg dir-ben vannak a konnyen mashol is hasznalhato csomagok. (log,error,httpse
 
 internal/httphandler - felelos a request ellenorzesert, response gyartasert
 
+Hiba kezelesre kulon packaget hasznalok, logolassal. Lehetoseg van bizonyos hibakat eljuttatni a responsba a hiba tipusa alapjan.
+(pkg/errors/httperror, exterror)
+
 ------------------------------------------------------------------------------------------
 FRONTEND:
 about,home,post component
@@ -41,74 +44,3 @@ home - megnyitasa betolti az osszes url-hash part
 post - itt lehet addolni 
 backend api hivasokat az angluar httpclient vegzi a data services-ben
 
-
-
-
-shorter: 
-+---shorter
-|   |   go.mod
-|   |   go.sum
-|   |   
-|   +---internal
-|   |   +---handlers
-|   |   |   \---httphandler
-|   |   |           httphandler.go   
-|   |   |           httphandler_gen.go
-|   |   |           
-|   |   +---core
-|   |   |   +---services
-|   |   |   |   +---event
-|   |   |   |   +---command
-|   |   |   |   |       commandmakeurlhash.go
-|   |   |   |   |       commanddeleteurl.go
-|   |   |   |   |       
-|   |   |   |   \---query
-|   |   |   |           querygeturl.go
-|   |   |   |           queryurlswidthhash.go
-|   |   |   |           
-|   |   |   +---domain
-|   |   |   |       domain.go
-|   |   |   |       domain_gen.go
-|   |   |   |       
-|   |   |   \---ports
-|   |   |           portrepo.go
-|   |   |           portservice.go
-|   |   |           
-|   |   \---repositories
-|   |       +---psqlrepo
-|   |       |       psqlrepo.go
-|   |       |       
-|   |       \---memrepo
-|   |               memrepo.go
-|   |               
-|   +---cmd
-|   |   |   go.mod
-|   |   |   
-|   |   \---shorter
-|   |           shorter.go
-|   |           cmd
-|   |           go.mod
-|   |           go.sum
-|   |           
-|   \---pkg
-|       +---httpserver
-|       |       httpserver.go
-|       |       
-|       +---errors
-|       |   +---httperror
-|       |   |       httperror.go
-|       |   |       
-|       |   \---exterror
-|       |           exterror.go
-|       |           
-|       \---logs
-|           +---extlog
-|           |       extlog.go
-|           |       
-|           \---httplog
-|                   echohttplog.go
-|                   
-\---openapi
-        shorter_gen.go
-        shorter.yaml
-        shorter_dom_gen.go
