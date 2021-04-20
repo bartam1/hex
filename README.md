@@ -3,12 +3,13 @@
 Installalas: 
 docker-compose up
 
+Ez a hiba nem lepett fel kesobbiekben: (
 TODO: ha a frontend data.services.ts-ben beallitom a backend kontener hostname-jet  (shorter), akkor valamiert nem tud csatlakozni a frontend a backendhez. Ha ipt allitok be akkor jo...
                 (private API_SERVER = "http://172.22.0.4:3000";  -  private API_SERVER = "http://shorter:3000";)   
 
 Az API_SERVER cim a ".env-frontend" fileban van definialva
 A docker-compose-al lehetne allitani fix ip-ket a kontenereknek es akkor az megoldas.
-
+)
 ---------------------------------------------------------------------------------------------------------------------------
 Dokumentacio: 
 
@@ -19,6 +20,8 @@ openapi - a feladathoz szukseges api hivasok  generalasa
 shorter - backend 
 sql - a psql kontener felallasa utan vegrehajtott sql utasitasok
 
+A feladattol eltertem a routingnal a /url/{hash} /url/del/{hash} lett a DELETE operacio
+Ez az openapi miatt volt szukseges. Termeszetesen egy szimpla atirassal maradhattam volna hu a feladathoz, de akkor az openapi altal generaltba kellett volna modositanom. 
 
 BACKEND: 
 A feladatot hexagonal arhitekturaban oldottam meg.
