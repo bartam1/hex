@@ -9,13 +9,13 @@ import (
 	"regexp"
 
 	"github.com/bartam1/mobilfox/shorter/internal/core/domain"
-	port "github.com/bartam1/mobilfox/shorter/internal/core/ports"
+	service "github.com/bartam1/mobilfox/shorter/internal/core/services"
 	"github.com/bartam1/mobilfox/shorter/pkg/errors/httperror"
 	echo "github.com/labstack/echo/v4"
 )
 
 type Shorter struct {
-	service port.Service
+	service service.Shorter
 }
 
 func (s Shorter) GetUrlsWidthHash(ctx echo.Context) error {
@@ -60,6 +60,6 @@ func (s Shorter) DeleteUrl(ctx echo.Context, hash string) error {
 	return ctx.String(http.StatusOK, "")
 }
 
-func New(ser port.Service) *Shorter {
+func New(ser service.Shorter) *Shorter {
 	return &Shorter{service: ser}
 }

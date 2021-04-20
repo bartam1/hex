@@ -5,6 +5,7 @@ import (
 	"os"
 
 	port "github.com/bartam1/mobilfox/shorter/internal/core/ports"
+	service "github.com/bartam1/mobilfox/shorter/internal/core/services"
 	"github.com/bartam1/mobilfox/shorter/internal/core/services/command"
 	"github.com/bartam1/mobilfox/shorter/internal/core/services/query"
 	"github.com/bartam1/mobilfox/shorter/internal/handlers/httphandler"
@@ -22,7 +23,7 @@ func main() {
 
 	ctx := context.Background()
 
-	//repo, _ := memrepo.New()
+	//repo, err := memrepo.New()
 
 	repo, err := psqlrepo.New(ctx, os.Getenv("DATABASE_PSQL_URL"))
 
@@ -31,12 +32,12 @@ func main() {
 	}
 
 	//Add interactions with prev created repo
-	s := port.Service{
-		Queries: port.Queries{
+	s := service.Shorter{
+		Queries: service.Queries{
 			UrlsWidthHash: query.NewUrlsWidthHash(repo),
 			Url:           query.NewUrl(repo),
 		},
-		Commands: port.Commands{
+		Commands: service.Commands{
 			MakeUrlHash: command.NewMakeUrlHash(repo),
 			DeleteUrl:   command.NewDeleteUrl(repo),
 		},
@@ -53,7 +54,7 @@ func main() {
 	e.Use(httplog.MiddlewareLogging)
 	e.HTTPErrorHandler = httplog.ErrorHandler
 
-	httphandler.RegisterHandlers(e, hndl)
+	port.RegisterHandlers(e, hndl)
 
 	//Catch interruptions and shutdown gracefully
 	idleConnsClosed := make(chan struct{})

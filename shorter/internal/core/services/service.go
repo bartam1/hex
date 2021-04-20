@@ -1,4 +1,4 @@
-package port
+package service
 
 import (
 	"github.com/bartam1/mobilfox/shorter/internal/core/services/command"
@@ -18,7 +18,7 @@ type Queries struct {
 type Events struct {
 }
 
-type Service struct {
+type Shorter struct {
 	Commands Commands
 	Queries  Queries
 	Events   Events
