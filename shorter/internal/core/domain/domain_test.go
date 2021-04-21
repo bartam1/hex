@@ -25,7 +25,7 @@ func TestHashRnd(t *testing.T) {
 	for i := 0; i < 1000; i++ {
 		teststr1 := makeRandomString(i + 5)
 		teststr2 := makeRandomString(i + 5)
-		if domain.Hash(teststr1) != domain.Hash(teststr1) && domain.Hash(teststr1) == domain.Hash(teststr2) {
+		if domain.Hash(teststr1) == domain.Hash(teststr2) {
 			t.Errorf("teststr1: %q, teststr2: %q", teststr1, teststr2)
 		}
 	}
