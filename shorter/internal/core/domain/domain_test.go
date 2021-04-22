@@ -22,21 +22,28 @@ func makeRandomString(max int) string {
 }
 
 func TestHashRnd(t *testing.T) {
+	puff := make([]domain.UrlHash, 1000)
+	var urlhash domain.UrlHash
 	for i := 0; i < 1000; i++ {
 		teststr1 := makeRandomString(i + 5)
-		teststr2 := makeRandomString(i + 5)
-		if domain.Hash(teststr1) == domain.Hash(teststr2) {
-			t.Errorf("teststr1: %q, teststr2: %q", teststr1, teststr2)
-		}
-	}
-}
-
-func TestHashLen(t *testing.T) {
-	for i := 0; i < 1000; i++ {
-		teststr1 := makeRandomString(i + 5)
-		l := len(domain.GenerateUrlHash(teststr1).Hash)
+		urlhash = domain.GenerateUrlHash(teststr1)
+		l := len(urlhash.Hash)
 		if l != 8 {
-			t.Errorf("len: %d, teststr1: %q", l, teststr1)
+			t.Errorf("len: %d, teststr1: %q too long hash string!", l, teststr1)
+		}
+		puff = append(puff, urlhash)
+	}
+	for i := 0; i < 1000; i++ {
+		teststr1 := makeRandomString(i + 5)
+		urlhash = domain.GenerateUrlHash(teststr1)
+		l := len(urlhash.Hash)
+		if l != 8 {
+			t.Errorf("len: %d, teststr1: %q too long hash string!", l, teststr1)
+		}
+		for _, h := range puff {
+			if urlhash.Hash == h.Hash && urlhash.Url != h.Url {
+				t.Errorf("teststr1: %q, teststr2: %q - Both url have same hash!", urlhash.Url, h.Url)
+			}
 		}
 	}
 }
